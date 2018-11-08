@@ -1,0 +1,157 @@
+Microsoft Windows [版本 10.0.17134.345]
+(c) 2018 Microsoft Corporation。保留所有权利。
+
+C:\WINDOWS\system32>net start mysql80
+请求的服务已经启动。
+
+请键入 NET HELPMSG 2182 以获得更多的帮助。
+
+
+C:\WINDOWS\system32>mysql -u root -p
+Enter password: ******
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 43
+Server version: 8.0.12 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database cart charset=utf8;
+Query OK, 1 row affected, 1 warning (0.09 sec)
+
+mysql> use cart;
+Database changed
+mysql> create table cart(id int auto_increment primary key,
+    -> name varchar(10)
+    -> num varchar(10));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'num varchar(10))' at line 3
+mysql> create table cart(id int auto_increment primary key,
+    -> name varchar(10),
+    -> num varchar(10));
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> desc cart;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(10) | YES  |     | NULL    |                |
+| num   | varchar(10) | YES  |     | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+3 rows in set (0.01 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_cart |
++----------------+
+| cart           |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> alter table cart add price varchar(6);
+Query OK, 0 rows affected (0.13 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc cart;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(10) | YES  |     | NULL    |                |
+| num   | varchar(10) | YES  |     | NULL    |                |
+| price | varchar(6)  | YES  |     | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> alter table cart add enjoy varchar(10);
+Query OK, 0 rows affected (0.14 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table cart add discount varchar(10);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table cart add 11wishes varchar(10);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> insert into cart(id,name,num,price)values
+    -> (1,'zr',12,'180');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> select * from cart;
++----+------+------+-------+-------+----------+----------+
+| id | name | num  | price | enjoy | discount | 11wishes |
++----+------+------+-------+-------+----------+----------+
+|  1 | zr   | 12   | 180   | NULL  | NULL     | NULL     |
++----+------+------+-------+-------+----------+----------+
+1 row in set (0.00 sec)
+
+mysql> insert into cart(id,name,num,price)values
+    -> (2,'mc',5,'300'),(3,'lml',9,'100');
+Query OK, 2 rows affected (0.09 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from cart;
++----+------+------+-------+-------+----------+----------+
+| id | name | num  | price | enjoy | discount | 11wishes |
++----+------+------+-------+-------+----------+----------+
+|  1 | zr   | 12   | 180   | NULL  | NULL     | NULL     |
+|  2 | mc   | 5    | 300   | NULL  | NULL     | NULL     |
+|  3 | lml  | 9    | 100   | NULL  | NULL     | NULL     |
++----+------+------+-------+-------+----------+----------+
+3 rows in set (0.00 sec)
+
+mysql> update cart set enjoy='snacks',discount='yes',11wishes='shopping'where
+    -> id=1;
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from cart;
++----+------+------+-------+--------+----------+----------+
+| id | name | num  | price | enjoy  | discount | 11wishes |
++----+------+------+-------+--------+----------+----------+
+|  1 | zr   | 12   | 180   | snacks | yes      | shopping |
+|  2 | mc   | 5    | 300   | NULL   | NULL     | NULL     |
+|  3 | lml  | 9    | 100   | NULL   | NULL     | NULL     |
++----+------+------+-------+--------+----------+----------+
+3 rows in set (0.00 sec)
+
+mysql> updare cart set enjoy='clothes',discount='no',11wishes='emptying cart'where
+    -> id=2
+    -> id=2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'updare cart set enjoy='clothes',discount='no',11wishes='emptying cart'where
+id=2' at line 1
+mysql> updare cart set enjoy='clothes',discount='no',11wishes='emptying cart'where
+    -> id=2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'updare cart set enjoy='clothes',discount='no',11wishes='emptying cart'where
+id=2' at line 1
+mysql> update cart set enjoy='clothes',discount='no',11wishes='emptying cart'where
+    -> id=2;
+ERROR 1406 (22001): Data too long for column '11wishes' at row 1
+mysql> update cart set enjoy='clothes',discount='no',11wishes='sleep'where
+    -> id=2;
+Query OK, 1 row affected (0.09 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update cart set enjoy='cosmetics',discount='yes',11wishes='whitening'where
+    -> id=3;
+Query OK, 1 row affected (0.09 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select *from cart;
++----+------+------+-------+-----------+----------+-----------+
+| id | name | num  | price | enjoy     | discount | 11wishes  |
++----+------+------+-------+-----------+----------+-----------+
+|  1 | zr   | 12   | 180   | snacks    | yes      | shopping  |
+|  2 | mc   | 5    | 300   | clothes   | no       | sleep     |
+|  3 | lml  | 9    | 100   | cosmetics | yes      | whitening |
++----+------+------+-------+-----------+----------+-----------+
+3 rows in set (0.00 sec)
+
+mysql>
